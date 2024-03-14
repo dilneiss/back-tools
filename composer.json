@@ -1,17 +1,8 @@
 {
-    "name": "backpack/devtools",
-    "description": "An admin UI for generating migrations, models and CRUDs",
+    "name": "dilneiss/back-tools",
+    "description": "dilneiss/back-tools",
     "license": "proprietary",
-    "authors": [
-        {
-            "name": "Cristian Tabacitu",
-            "email": "tabacitu@backpackforlaravel.com",
-            "homepage": "https://backpackforlaravel.com",
-            "role": "Creator & Maintainer"
-        }
-    ],
-    "homepage": "https://github.com/laravel-backpack/devtools",
-    "keywords": ["Laravel", "DevTools", "Backpack for Laravel", "Generators", "Generate Migrations", "Generate Models", "Generate Relationships"],
+    "keywords": ["Laravel"],
     "require": {
         "backpack/crud": "^6.0",
         "backpack/generators": "^4.0",
