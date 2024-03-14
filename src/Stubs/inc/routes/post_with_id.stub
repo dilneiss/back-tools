@@ -1,0 +1,5 @@
+Route::post($segment.'/{id}/___to_be_replaced_with_operation_route_name___', [
+            'as'        => $routeName.'.___to_be_replaced_with_operation_name___Action',
+            'uses'      => $controller.'@___to_be_replaced_with_operation_name___Action',
+            'operation' => '___to_be_replaced_with_operation_name___',
+        ]);

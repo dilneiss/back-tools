@@ -1,0 +1,16 @@
+/**
+     * Method to handle the GET request and display the View with a Backpack form
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function ___to_be_replaced_with_operation_name___()
+    {
+        $this->crud->hasAccessOrFail('___to_be_replaced_with_operation_name___');
+
+        // prepare the fields you need to show
+        $this->data['crud'] = $this->crud;
+        $this->data['saveAction'] = $this->crud->getSaveAction();
+        $this->data['title'] = $this->crud->getTitle() ?? trans('backpack::crud.add').' '.$this->crud->entity_name;
+
+        return view("crud::operations.___to_be_replaced_with_operation_file_name___", $this->data);
+    }

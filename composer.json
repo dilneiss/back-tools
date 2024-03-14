@@ -1,0 +1,52 @@
+{
+    "name": "backpack/devtools",
+    "description": "An admin UI for generating migrations, models and CRUDs",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Cristian Tabacitu",
+            "email": "tabacitu@backpackforlaravel.com",
+            "homepage": "https://backpackforlaravel.com",
+            "role": "Creator & Maintainer"
+        }
+    ],
+    "homepage": "https://github.com/laravel-backpack/devtools",
+    "keywords": ["Laravel", "DevTools", "Backpack for Laravel", "Generators", "Generate Migrations", "Generate Models", "Generate Relationships"],
+    "require": {
+        "backpack/crud": "^6.0",
+        "backpack/generators": "^4.0",
+        "laravel-shift/blueprint": "^2.7",
+        "calebporzio/sushi": "^2.3",
+        "livewire/livewire": "^3.0",
+        "ext-pdo_sqlite": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "mockery/mockery": "^1.1",
+        "orchestra/testbench": "^8.0",
+        "sempro/phpunit-pretty-print": "^1.0",
+        "scrutinizer/ocular": "^1.7",
+        "friendsofphp/php-cs-fixer": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Backpack\\DevTools\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --testdox",
+        "test-failing": "vendor/bin/phpunit --order-by=defects --stop-on-failure"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Backpack\\DevTools\\DevToolsServiceProvider"
+            ]
+        }
+    }
+}

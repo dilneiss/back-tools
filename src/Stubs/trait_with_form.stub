@@ -1,0 +1,50 @@
+<?php
+
+namespace ___to_be_replaced_with_namespace___;
+
+use Backpack\CRUD\app\Http\Controllers\Operations\Concerns\HasForm;
+
+trait ___to_be_replaced_with_trait_operation___Operation
+{
+    use HasForm;
+    /**
+     * Define which routes are needed for this operation.
+     *
+     * @param string $segment    Name of the current entity (singular). Used as first URL segment.
+     * @param string $routeName  Prefix of the route name.
+     * @param string $controller Name of the current CrudController.
+     */
+    protected function setup___to_be_replaced_with_trait_operation___Routes(string $segment, string $routeName, string $controller): void
+    {
+        $this->formRoutes(
+            operationName: '___to_be_replaced_with_operation_name___',
+            routesHaveIdSegment: ___to_be_replaced_with_operation_has_id___,
+            segment: $segment,
+            routeName: $routeName,
+            controller: $controller
+        );
+    }
+
+    /**
+     * Add the default settings, buttons, etc that this operation needs.
+     */
+    protected function setup___to_be_replaced_with_trait_operation___Defaults(): void
+    {
+        $this->formDefaults(
+            operationName: '___to_be_replaced_with_operation_name___',
+            buttonStack: '___to_be_replaced_with_button_position___',
+            buttonMeta: [
+                   'label' => '___to_be_replaced_with_button_label___',
+            //     'icon' => 'la la-home',
+            //     
+            //     'wrapper' => [
+            //          'target' => '_blank',
+            //     ],
+            ],
+        );
+    }
+
+    ___to_be_replaced_with_method_get___
+    
+    ___to_be_replaced_with_method_post___
+}

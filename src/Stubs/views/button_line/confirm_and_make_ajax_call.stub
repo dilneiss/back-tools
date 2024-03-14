@@ -1,0 +1,60 @@
+@if ($crud->hasAccess('___to_be_replaced_with_operation_name___'))
+    <a href="javascript:void(0)" onclick="___to_be_replaced_with_operation_name___LineWithConfirmationOperation(this)" class="btn btn-sm btn-link" data-line-operation-id="{{ $entry->getKey() }}">
+	    <span><i class="la la-question"></i> ___to_be_replaced_with_button_label___</span>
+	</a>
+@endif
+
+@push('after_scripts') @if (request()->ajax()) @endpush @endif
+<script>
+	if (typeof ___to_be_replaced_with_operation_name___LineWithConfirmationOperation !== 'function') {
+	    function ___to_be_replaced_with_operation_name___LineWithConfirmationOperation(button) {
+            const id = $(button).attr('data-line-operation-id');
+            swal({
+                title: "{!! trans('backpack::base.warning') !!}",
+                text: "___to_be_replaced_with_confirmation_message___",
+                icon: "warning",
+                buttons: {
+                    cancel: {
+                        text: "{!! trans('backpack::crud.cancel') !!}",
+                        value: null,
+                        visible: true,
+                        className: "bg-secondary",
+                        closeModal: true,
+                    },
+                    ok: {
+                        text: "{{ trans('backpack::crud.yes') }}",
+                        value: true,
+                        visible: true,
+                        className: "bg-primary",
+                    }
+                },
+            }).then((value) => {
+                if (value) {
+                    var ajax_route = "{{ url($crud->route) }}/" + id + "/___to_be_replaced_with_operation_route_name___";
+                    // Submit an AJAX call
+                    $.ajax({
+                        url: ajax_route,
+                        type: 'POST',
+                        success: function() {
+                            // Show an alert with the result
+                            new Noty({
+                            type: "success",
+                            text: "{{ trans('backpack::base.success') }}!"
+                        }).show();
+                            crud.checkedItems = [];
+                            crud.table.draw(false);
+                        },
+                        error: function() {
+                            // Show an alert with the result
+                            new Noty({
+                                type: "danger",
+                                text: "<strong>{!! trans('backpack::base.error') !!}</strong><br> {!! trans('backpack::base.unknown_error') !!}"
+                            }).show();
+                        }
+                    });
+                }
+            });
+        }
+	}
+</script>
+@if (!request()->ajax()) @endpush @endif

@@ -1,0 +1,5 @@
+Route::get($segment.'/{id}/___to_be_replaced_with_operation_route_name___', [
+            'as'        => $routeName.'.___to_be_replaced_with_operation_name___',
+            'uses'      => $controller.'@___to_be_replaced_with_operation_name___',
+            'operation' => '___to_be_replaced_with_operation_name___',
+        ]);

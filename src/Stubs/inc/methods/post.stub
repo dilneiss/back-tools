@@ -1,0 +1,13 @@
+/**
+     * Method to handle the POST request and perform the operation
+     *
+     * @return array|\Illuminate\Http\RedirectResponse
+     */
+    public function ___to_be_replaced_with_operation_name___Action()
+    {
+        $this->crud->hasAccessOrFail('___to_be_replaced_with_operation_name___');
+
+        // You logic goes here...
+
+        return $this->crud->performSaveAction();
+    }

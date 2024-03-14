@@ -1,0 +1,38 @@
+<?php
+
+namespace ___to_be_replaced_with_namespace___;
+
+use Illuminate\Support\Facades\Route;
+
+trait ___to_be_replaced_with_trait_operation___Operation
+{
+    /**
+     * Define which routes are needed for this operation.
+     *
+     * @param string $segment    Name of the current entity (singular). Used as first URL segment.
+     * @param string $routeName  Prefix of the route name.
+     * @param string $controller Name of the current CrudController.
+     */
+    protected function setup___to_be_replaced_with_trait_operation___Routes(string $segment, string $routeName, string $controller): void
+    {
+        ___to_be_replaced_with_route_get______to_be_replaced_with_route_post___
+    }
+
+    /**
+     * Add the default settings, buttons, etc that this operation needs.
+     */
+    protected function setup___to_be_replaced_with_trait_operation___Defaults(): void
+    {
+        // Access
+        $this->crud->allowAccess('___to_be_replaced_with_operation_name___');
+
+        // Config
+        $this->crud->operation('___to_be_replaced_with_operation_name___', function () {
+            $this->crud->loadDefaultOperationSettingsFromConfig();
+            $this->crud->setupDefaultSaveActions();
+        });
+        ___to_be_replaced_with_button___
+    }
+
+    ___to_be_replaced_with_method_get______to_be_replaced_with_method_post___
+}

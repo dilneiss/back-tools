@@ -1,0 +1,66 @@
+@if ($crud->hasAccess('___to_be_replaced_with_operation_name___') && $crud->get('list.bulkActions'))
+	<a href="javascript:void(0)" onclick="___to_be_replaced_with_operation_name___BlukWithConfirmationOperation(this)" class="btn btn-sm btn-secondary bulk-button">
+	    <span><i class="la la-question"></i> ___to_be_replaced_with_button_label___</span>
+	</a>
+@endif
+
+@push('after_scripts')
+<script>
+	if (typeof ___to_be_replaced_with_operation_name___BlukWithConfirmationOperation !== 'function') {
+	    function ___to_be_replaced_with_operation_name___BlukWithConfirmationOperation(button) {
+            if (typeof crud.checkedItems === 'undefined' || crud.checkedItems.length == 0) {
+                new Noty({
+                  type: "warning",
+                  text: "<strong>{!! trans('backpack::crud.bulk_no_entries_selected_title') !!}</strong><br>{!! trans('backpack::crud.bulk_no_entries_selected_message') !!}"
+                }).show();
+
+	      	    return;
+	        }
+            swal({
+                title: "{!! trans('backpack::base.warning') !!}",
+                text: "___to_be_replaced_with_confirmation_message___",
+                icon: "warning",
+                buttons: {
+                    cancel: {
+                        text: "{!! trans('backpack::crud.cancel') !!}",
+                        value: null,
+                        visible: true,
+                        className: "bg-secondary",
+                        closeModal: true,
+                    },
+                    ok: {
+                        text: "{{ trans('backpack::crud.yes') }}",
+                        value: true,
+                        visible: true,
+                        className: "bg-primary",
+                    }
+                },
+            }).then((value) => {
+                if (value) {
+                    $.ajax({
+                        url: "{{ url($crud->route) }}/___to_be_replaced_with_operation_route_name___",
+                        type: 'POST',
+                        data: { entries: crud.checkedItems },
+                        success: function() {
+                            // Show an alert with the result
+                            new Noty({
+                            type: "success",
+                            text: "<strong>{{ trans('backpack::base.success') }}!</strong><br>" + crud.checkedItems.length + " updated items!"
+                        }).show();
+                            crud.checkedItems = [];
+                            crud.table.draw(false);
+                        },
+                        error: function() {
+                            // Show an alert with the result
+                            new Noty({
+                                type: "danger",
+                                text: "<strong>{!! trans('backpack::base.error') !!}</strong><br> {!! trans('backpack::base.unknown_error') !!}"
+                            }).show();
+                        }
+                    });
+                }
+            });
+        }
+	}
+</script>
+@endpush

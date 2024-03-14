@@ -1,0 +1,12 @@
+/**
+     * Method to handle the GET request and display the View with a Backpack form
+     *
+     * @param  int  $id
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function get___to_be_replaced_with_trait_operation___Form(?int $id = null)
+    {
+        $this->crud->hasAccessOrFail('___to_be_replaced_with_operation_name___');
+
+        return $this->formView($id);
+    }

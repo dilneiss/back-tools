@@ -1,0 +1,11 @@
+/**
+     * Method to handle the GET request and display the View with a Backpack form
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function ___to_be_replaced_with_operation_name___()
+    {
+        $this->crud->hasAccessOrFail('___to_be_replaced_with_operation_name___');
+
+        return view("crud::operations.___to_be_replaced_with_operation_file_name___", $this->data);
+    }

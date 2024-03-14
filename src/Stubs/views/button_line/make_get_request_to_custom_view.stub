@@ -1,0 +1,5 @@
+@if ($crud->hasAccess('___to_be_replaced_with_operation_name___'))
+    <a href="{{ url($crud->route.'/'.$entry->getKey().'/___to_be_replaced_with_operation_route_name___') }}" class="btn btn-sm btn-link">
+        <span><i class="la la-question"></i> ___to_be_replaced_with_button_label___</span>
+    </a>
+@endif

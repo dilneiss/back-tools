@@ -1,0 +1,5 @@
+
+        // Button
+        $this->crud->operation('list', function () {
+            $this->crud->addButton('___to_be_replaced_with_button_position___', '___to_be_replaced_with_operation_name___', 'view', 'crud::buttons.___to_be_replaced_with_operation_file_name___', 'end');___to_be_replaced_with_enable_bulk_action___
+        });

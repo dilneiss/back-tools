@@ -1,0 +1,9 @@
+@extends(backpack_view('blank'))
+
+@section('header')
+
+@endsection
+
+@section('content')
+
+@endsection
