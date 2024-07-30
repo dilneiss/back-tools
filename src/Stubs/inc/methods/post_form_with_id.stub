@@ -1,0 +1,16 @@
+/**
+    * Method to handle the POST request and perform the operation
+    * @return array|\Illuminate\Http\RedirectResponse
+    */
+    public function post___to_be_replaced_with_trait_operation___Form(?int $id = null)
+    {
+        $this->crud->hasAccessOrFail('___to_be_replaced_with_operation_name___');
+
+        return $this->formAction($id, function ($inputs, $entry) {
+            // You logic goes here...
+            // dd('got to ' . __METHOD__, $inputs, $entry);
+
+            // show a success message
+            \Alert::success('Something was done!')->flash();
+        });
+    }

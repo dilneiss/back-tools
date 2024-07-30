@@ -7,7 +7,7 @@
         <div class="col-md-12 well migration-schema row m-1 p-2 pl-3 ps-3">
           <div class="side-button-group">
             <button type="button"
-                    @if($relationship['created_by_column'])
+                    @if(isset($relationship['created_by_column']) && $relationship['created_by_column'])
                     wire:click="confirmRelationshipDelete('removeRelationshipAndColumn', {{$relationship_index}})"
                     @else
                     wire:click="confirmRelationshipDelete('removeRelationship', {{$relationship_index}})"
@@ -23,7 +23,7 @@
                     wire:model="relationships.{{ $relationship_index }}.relationship_type"
                     wire:change="selectRelationshipType({{$relationship_index}})"
                     class="form-control"
-                    @if($relationship['created_by_column'])
+                    @if(isset($relationship['created_by_column']) && $relationship['created_by_column'])
                     readonly
                     @endif
                     >
@@ -39,7 +39,7 @@
           @if (view()->exists('backpack.devtools::livewire.relationship-schema.'.strtolower($relationship['relationship_type'])))
               @include('backpack.devtools::livewire.relationship-schema.'.strtolower($relationship['relationship_type']))
           @endif
-          @if($relationship['created_by_column'])
+          @if(isset($relationship['created_by_column']) && $relationship['created_by_column'])
           <input type="hidden" name="relationships[{{$relationship_index}}][created_by_column]" wire:model="relationships.{{$relationship_index}}.created_by_column" />
           <div class="col-md-12 form-group mb-1 px-1">
             <span class="text-muted">* This relationship was inferred from your migration columns.</span>

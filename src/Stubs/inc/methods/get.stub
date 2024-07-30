@@ -3,7 +3,7 @@
      *
      * @return \Illuminate\Contracts\View\View
      */
-    public function ___to_be_replaced_with_operation_name___()
+    public function get___to_be_replaced_with_trait_operation___Form()
     {
         $this->crud->hasAccessOrFail('___to_be_replaced_with_operation_name___');
 

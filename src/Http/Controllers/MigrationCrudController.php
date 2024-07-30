@@ -20,9 +20,9 @@ class MigrationCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\DevTools\Http\Controllers\Operations\RunMigrationOperation;
-    use \Backpack\DevTools\Http\Controllers\Operations\DeleteMigrationOperation;
-    use \Backpack\DevTools\Http\Controllers\Operations\StrippedShowOperation;
+    use Operations\RunMigrationOperation;
+    use Operations\DeleteMigrationOperation;
+    use Operations\StrippedShowOperation;
     // use \Backpack\DevTools\Http\Controllers\Operations\BuildCrudOperation;
 
     public function setup()

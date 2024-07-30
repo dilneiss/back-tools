@@ -1,5 +1,5 @@
 Route::get($segment.'/___to_be_replaced_with_operation_route_name___', [
             'as'        => $routeName.'.___to_be_replaced_with_operation_name___',
-            'uses'      => $controller.'@___to_be_replaced_with_operation_name___',
+            'uses'      => $controller.'@get___to_be_replaced_with_trait_operation___Form',
             'operation' => '___to_be_replaced_with_operation_name___',
         ]);

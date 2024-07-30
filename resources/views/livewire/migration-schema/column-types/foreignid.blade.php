@@ -35,7 +35,7 @@
     @endif
 
     @php
-    $table = $schema->where('name', $columns[$column_index]['args']['foreign_table'] ?? '')->first();
+        $table = $schema[$columns[$column_index]['args']['foreign_table'] ?? null] ?? false;
     @endphp
     @if($table && !$table['has_index'])
         <small class="text-danger">Table does not have an index. Can't use foreignId column type.</small>
@@ -48,11 +48,11 @@
         wire:model="columns.{{ $column_index }}.args.foreign_column"  
         class="form-control">
         <option value="">-</option>
-        @foreach ($column['columns_for_table'] as $column_name => $column_value)
+        @foreach ($column['columns_for_table'] as $column_name)
         <option
             value="{{ $column_name }}"
-            {{ $column_value['is_index'] ? '' : 'disabled' }}>
-            {{ $column_name }} {{ $column_value['is_index'] ? '' : '(not an index)' }}
+            >
+            {{ $column_name }}
         </option>
         @endforeach
     </select>

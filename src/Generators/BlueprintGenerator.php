@@ -4,16 +4,15 @@ namespace Backpack\DevTools\Generators;
 
 use Backpack\DevTools\GeneratorInterface;
 use Backpack\DevTools\Models\Model;
-use Backpack\DevTools\SchemaManager;
 use Blueprint\Blueprint;
 use Blueprint\Builder;
 use Blueprint\Commands\TraceCommand;
 use Blueprint\Models\Column;
 use Blueprint\Translators\Rules;
-use Doctrine\DBAL\Types\Types;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Prologue\Alerts\Facades\Alert;
@@ -31,7 +30,10 @@ class BlueprintGenerator implements GeneratorInterface
     public function __construct()
     {
         $this->yamlFilePath = base_path('draft.yaml');
-        $this->schema_manager = (new SchemaManager())->getManager();
+        /*
+         * @var \Backpack\CRUD\app\Library\Database\DatabaseSchema
+         */
+        $this->schema_manager = app('DatabaseSchema');
     }
 
     public function generate($request)
@@ -376,33 +378,36 @@ class BlueprintGenerator implements GeneratorInterface
             // foreign
             if ($type === 'foreignId') {
                 $relation_model = $column['args']['model'] ?? null;
-                $relation_table = $column['args']['foreign_table'] ?? (! is_null($relation_model) ? (new $relation_model())->getTable() : '');
+                $relation_model_instance = ! is_null($relation_model) ? (new $relation_model()) : null;
+                $relation_table = $column['args']['foreign_table'] ?? (! is_null($relation_model) ? $relation_model_instance->getTableWithPrefix() : '');
                 $relation_column = $column['args']['foreign_column'] ?? 'id';
-
+                $connection_name = ! is_null($relation_model) ? $relation_model_instance->getConnection()->getName() : config('database.default');
                 if ($relation_table) {
-                    $referenced_column = collect($this->schema_manager->listTableColumns($relation_table))
-                        ->filter(function ($item) use ($relation_column) {
-                            return $item->getName() === $relation_column;
+                    $referenced_column = collect($this->schema_manager->getForTable($connection_name, $relation_table)->getColumns())
+                        ->filter(function ($column) use ($relation_column) {
+                            return $column->getName() === $relation_column;
                         })
                         ->first();
                     if ($referenced_column && $referenced_column->getType()->getName() !== 'bigint') {
                         $type = $referenced_column->getType()->getName();
                         $modifiers .= ($referenced_column->getUnsigned() ? ' unsigned' : '');
 
-                        // Map DBal types
-                        $dbalMapping = [
-                                Types::BIGINT => 'bigInteger',
-                                Types::SMALLINT => 'smallInteger',
-                                Types::BLOB => 'binary',
-                                Types::DATE_IMMUTABLE => 'date',
-                                Types::DATETIME_IMMUTABLE => 'dateTime',
-                                Types::DATETIMETZ_IMMUTABLE => 'dateTimeTz',
-                                Types::TIME_IMMUTABLE => 'time',
-                                Types::SIMPLE_ARRAY => 'array',
+                        if (method_exists(DB::connection($connection_name), 'getDoctrineSchemaManager')) {
+                            $dbalMapping = [
+                                \Doctrine\DBAL\Types\Types::BIGINT => 'bigInteger',
+                                \Doctrine\DBAL\Types\Types::SMALLINT => 'smallInteger',
+                                \Doctrine\DBAL\Types\Types::BLOB => 'binary',
+                                \Doctrine\DBAL\Types\Types::DATE_IMMUTABLE => 'date',
+                                \Doctrine\DBAL\Types\Types::DATETIME_IMMUTABLE => 'dateTime',
+                                \Doctrine\DBAL\Types\Types::DATETIMETZ_IMMUTABLE => 'dateTimeTz',
+                                \Doctrine\DBAL\Types\Types::TIME_IMMUTABLE => 'time',
+                                \Doctrine\DBAL\Types\Types::SIMPLE_ARRAY => 'array',
                             ];
-                        if (array_key_exists($type, $dbalMapping)) {
-                            $type = $dbalMapping[$type];
+                            if (array_key_exists($type, $dbalMapping)) {
+                                $type = $dbalMapping[$type];
+                            }
                         }
+
                         $relation_table = ":$relation_table.$relation_column";
                         $content->push(rtrim("    $name: $type foreign$relation_table $modifiers"));
 

@@ -55,13 +55,11 @@
             switch (operationType) {
                 case TYPE_GLOBAL_OPERATION:
                     operationSteps
-                        .append('<li>A <code>GET</code> <i>route</i> and a <i>method</i> to handle the custom view ' + ICON_CHECK + '</li>')
-                        .append('<li>A <code>POST</code> <i>route</i> and a <i>method</i> to handle the form submission ' + ICON_CHECK + '</li>');
+                        .append('<li>A <code>GET</code> <i>route</i> and a <i>method</i> to handle the custom view ' + ICON_CHECK + '</li>');
                     break;
                 case TYPE_LINE_OPERATION:
                     operationSteps
-                        .append('<li>A <code>GET</code> <i>route</i> and a <i>method</i> to handle the custom view ' + ICON_CHECK + '</li>')
-                        .append('<li>A <code>POST</code> <i>route</i> and a <i>method</i> to handle the form submission ' + ICON_CHECK + '</li>');
+                        .append('<li>A <code>GET</code> <i>route</i> and a <i>method</i> to handle the custom view ' + ICON_CHECK + '</li>');
                     break;
                 case TYPE_BULK_OPERATION:
                     operationSteps
@@ -88,6 +86,7 @@
             switch (buttonAction) {
                 case ACTION_MAKE_GET_REQUEST_TO_BACKPACK_FORM:
                     operationSteps
+                        .append('<li class="action-related">A <code>POST</code> <i>route</i> and a <i>method</i> to handle the form submission ' + ICON_CHECK + '</li>')
                         .append('<li class="action-related">A custom view with a Backpack form in <code>/views/vendor/backpack/crud/operations/' + operationName + '.blade.php</code> ' + ICON_CHECK + '</li>')
                         .append('<li class="action-related button-description">A button ' + buttonLabel + ' in <code>/views/vendor/backpack/crud/buttons/' + operationName + '.blade.php</code> ' + ICON_CHECK + '</li>');
                     break;
@@ -102,8 +101,8 @@
                         .append('<li class="action-related">A button ' + buttonLabel + ' in <code>/views/vendor/backpack/crud/buttons/' + operationName + '.blade.php</code> ' + ICON_CHECK +
                             '</li>' +
                             '<ul>' +
-                            '<li>This button includes a warning message <code>swal(' + confirmationMessageText + ')</code> which is shown before the operation is performed</li>' +
-                            '<li>If confirmed, an ajax call is executed to the <code>POST</code> <i>route</i> previously created</li>' +
+                            '<li class="action-related">This button includes a warning message <code>swal(' + confirmationMessageText + ')</code> which is shown before the operation is performed</li>' +
+                            '<li class="action-related">If confirmed, an ajax call is executed to the <code>POST</code> <i>route</i> previously created</li>' +
                             '</ul>' +
                             '</li>');
                     break;
@@ -111,7 +110,7 @@
                     operationSteps
                         .append('<li class="action-related button-description">A button ' + buttonLabel + ' in <code>/views/vendor/backpack/crud/buttons/' + operationName + '.blade.php</code> ' + ICON_CHECK +
                             '<ul>' +
-                            '<li>This button triggers an ajax call to the <code>POST</code> <i>route</i> previously created (without any warning)</li>' +
+                            '<li class="action-related">This button triggers an ajax call to the <code>POST</code> <i>route</i> previously created (without any warning)</li>' +
                             '</ul>' +
                             '</li>')
                         .append('</ul>');

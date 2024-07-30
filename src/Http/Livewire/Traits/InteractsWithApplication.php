@@ -2,9 +2,7 @@
 
 namespace Backpack\DevTools\Http\Livewire\Traits;
 
-use Backpack\DevTools\SchemaManager;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
@@ -18,21 +16,20 @@ trait InteractsWithApplication
 
     public $table_list;
 
+    /**
+     * @var \Backpack\CRUD\app\Library\Database\DatabaseSchema
+     */
     private $schema_manager;
 
-    public function interactsWithApplicationInitialization($cached = true)
+    public function interactsWithApplicationInitialization(bool $cached = true)
     {
-        $this->schema_manager = (new SchemaManager)->getManager();
+        $this->schema_manager = app('DatabaseSchema');
 
         $this->buildSchemaAndModels($cached);
-
-        $this->table_list = $this->createTableList();
     }
 
-    private function buildSchemaAndModels($cached)
+    private function buildSchemaAndModels(bool $cached)
     {
-        $this->previous_models = $this->models;
-
         if (! $cached) {
             Cache::forget('devToolsDbSchema');
             Cache::forget('devToolsModelList');
@@ -42,11 +39,17 @@ trait InteractsWithApplication
             return $this->getDbSchema();
         });
 
+        $this->buildModels();
+
+        $this->table_list = $this->createTableList();
+    }
+
+    private function buildModels()
+    {
+        $this->previous_models = $this->models;
         $this->models = Cache::rememberForever('devToolsModelList', function () {
             return $this->getModelList();
         });
-
-        $this->table_list = $this->createTableList();
     }
 
     private function getModelList()
@@ -58,81 +61,41 @@ trait InteractsWithApplication
             return [
                 'name' => $item,
                 'table' => $model_instance->getTable(),
-                'has_index' => isset($this->schema) ? $this->checkModelTableForIndex($model_instance) : false,
+                'has_index' => $this->checkModelTableForIndex($model_instance),
             ];
         });
     }
 
     private function checkModelTableForIndex($model)
     {
-        $table_name = $model->getTable();
-        $table = $this->schema->where('name', $table_name)->first();
-
-        if ($table && $table['has_index']) {
-            return true;
-        }
-
-        return false;
+        return ! empty($this->schema_manager->listTableIndexes(connection: $model->getConnection()->getName(), table: $model->getTable()));
     }
 
     private function getDbSchema()
     {
-        return collect($this->schema_manager->listTableNames())->map(function ($item, $key) {
-            switch (DB::connection()->getConfig('driver')) {
-                case 'pgsql':
-                    $indexes = collect(DB::select("SELECT indexdef FROM pg_indexes WHERE schemaname = 'public' AND tablename = '$item'"))
-                        ->map(function ($item) {
-                            return Str::of($item->indexdef)->match('/\((.*)\)/');
-                        })
-                        ->toArray();
-                    break;
-
-                case 'sqlite':
-                    $indexes = collect(DB::select("SELECT sql FROM sqlite_master WHERE type = 'index' AND name = '$item'"))
-                    ->map(function ($item) {
-                        return Str::of($item->sql)->match('/\((.*)\)/');
-                    })
-                    ->toArray();
-                    break;
-                case 'sqlsrv':
-                    $indexes = collect(DB::select("SELECT name FROM sys.columns WHERE object_id = OBJECT_ID('$item')"))
-                    ->map(function ($item) {
-                        return Str::of($item->name)->match('/\((.*)\)/');
-                    })
-                    ->toArray();
-                    break;
-                default:
-                    $indexes = collect(DB::select("SHOW INDEX FROM `$item`;"))
-                        ->map(function ($item) {
-                            return $item->Column_name;
-                        })
-                        ->toArray();
-                    break;
-            }
-
-            $columns = collect($this->schema_manager->listTableColumns($item))
-            ->map(function ($item, $key) use ($indexes) {
+        return collect($this->schema_manager->getTables())->map(function ($table, $key) {
+            $indexes = $this->schema_manager->listTableIndexes(connection: config('database.default'), table: $table->getName());
+            $columns = collect($table->getColumns())
+            ->map(function ($column, $key) use ($indexes) {
                 return [
-                    'type' => $item->getType()->getName(),
-                    'unsigned' => $item->getUnsigned(),
-                    'is_index' => in_array($item->getName(), $indexes),
+                    'type' => $column->getType()->getName(),
+                    'unsigned' => $column->getUnsigned(),
+                    'is_index' => in_array($column->getName(), $indexes),
                 ];
             })->toArray();
 
             return [
-              'name' => $item,
+              'name' => $table->getName(),
               'columns' => $columns,
               'has_index' => ! empty($indexes),
               'table_indexes' => $indexes,
             ];
-        });
+        })->toArray();
     }
 
     private function createTableList()
     {
-        return $this->schema->map(function ($item) {
-            return $item['name'];
-        })->toArray();
+        return array_keys($this->schema);
     }
 
     private function getPossibleModelFromColumnName($column_name)
@@ -153,9 +116,7 @@ trait InteractsWithApplication
 
     private function getColumnsForTable($table)
     {
-        return $this->schema->filter(function ($item) use ($table) {
-            return $item['name'] == $table;
-        })->pluck('columns')->first() ?? [];
+        return $this->schema_manager->listTableColumnsNames(connection: config('database.default'), table: $table);
     }
 
     private function inferModelValues(string $model_class, int $column_index)
@@ -182,14 +143,16 @@ trait InteractsWithApplication
 
     private function modelKeyIsIndex($model)
     {
-        $table_name = $model->getTable();
-        $table = $this->schema->where('name', $table_name)->first();
+        $table_name = $model->getTableWithPrefix();
 
-        if (! $table) {
-            return false;
-        }
+        return in_array($model->getKeyName(), $this->schema_manager->listTableIndexes(table: $table_name, connection: $model->getConnection()->getName()));
+    }
 
-        return in_array($model->getKeyName(), $table['table_indexes']);
+    private function getFirstIndexColumn($model)
+    {
+        $table_name = $model->getTableWithPrefix();
+
+        return current($this->schema_manager->listTableIndexes(table: $table_name, connection: $model->getConnection()->getName()));
     }
 
     private function getRelationNameFromColumnName($relation)
@@ -205,29 +168,32 @@ trait InteractsWithApplication
         return Str::camel(Str::beforeLast($relation, '_id'));
     }
 
-    private function getForeignColumnName($table_name, $model = false)
+    private function getForeignColumnName(string $table_name, $model = null)
     {
-        $table = $this->schema->where('name', $table_name)->first();
+        $model = is_string($model) ? new $model() : $model;
 
-        if (! $table || empty($table['table_indexes'])) {
+        $connection = $model?->getConnection()->getName() ?? null;
+        $indexes = $this->schema_manager->listTableIndexes(table: $table_name, connection: $connection);
+
+        if (empty($indexes)) {
             return '';
         }
 
         if (is_string($model)) {
             $model_instance = (new $model);
             if ($model_instance instanceof \Illuminate\Database\Eloquent\Model || is_subclass_of($model_instance, \Illuminate\Database\Eloquent\Model::class)) {
-                if (in_array($model_instance->getKeyName(), $table['table_indexes'])) {
+                if (in_array($model_instance->getKeyName(), $indexes)) {
                     return $model_instance->getKeyName();
                 }
             }
         }
 
-        return $table['table_indexes'][0];
+        return current($indexes);
     }
 
     private function updateModelListAndGetCreatedModel()
     {
-        $this->buildSchemaAndModels(false);
+        $this->buildModels();
         if (! is_null($this->previous_models)) {
             return array_diff(array_column($this->models->toArray(), 'name'), array_column($this->previous_models->toArray(), 'name'));
         }

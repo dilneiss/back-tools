@@ -2,7 +2,7 @@
 
 Contributions are _very_ welcome, but because this package is closed-source, it's more difficult than with our open-source package.
 
-Please send open a new issue in [this repo](https://github.com/laravel-backpack/devtools-issues) with your idea. If it sounds good to us too, we'll either work on it or give you access to [the Github repo](https://github.com/laravel-backpack/devtools) for a month, so you have time to submit the Pull Request. We'd love to give access to everyone who bought (for the duration of their update period) but unfortunately we can't, since Github incrues costs per collaborator per month.
+Please open a new issue in [this repo](https://github.com/laravel-backpack/devtools-issues) with your idea. Include any code if you can (as text, zip, gist - anything you can) and we'll create a PR out of it. If it's a large PR let us know, we might give you access for a month or so. We'd love to give access to everyone who bought (for the duration of their update period) but unfortunately we can't, since Github incrues costs per collaborator per month.
 
 But considering this is a paid product, you probably just want to ask us to build it 😀 You can do that [here](https://github.com/laravel-backpack/devtools-issues).
 

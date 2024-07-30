@@ -3,7 +3,7 @@
      *
      * @return array|\Illuminate\Http\RedirectResponse
      */
-    public function ___to_be_replaced_with_operation_name___Action()
+    public function post___to_be_replaced_with_trait_operation___Action()
     {
         $this->crud->hasAccessOrFail('___to_be_replaced_with_operation_name___');
 

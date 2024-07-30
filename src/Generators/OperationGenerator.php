@@ -241,6 +241,7 @@ class OperationGenerator
     private function buildOperationTrait(): self
     {
         $requiresGetRoute = $this->shouldBuildView();
+        $hasPostMethod = $this->hasPostMethod();
         $withId = $this->type === self::TYPE_LINE ? '_with_id' : '';
 
         // Route GET
@@ -250,7 +251,7 @@ class OperationGenerator
         $this->replaceFileContent($this->template, self::PLACEHOLDER_ROUTE_GET, $getRouteContent);
 
         // Route POST
-        $postRouteContent = File::get(__DIR__.self::PATH_TO_STUBS.'inc/routes/post'.$withId.'.stub');
+        $postRouteContent = $hasPostMethod ? File::get(__DIR__.self::PATH_TO_STUBS.'inc/routes/post'.$withId.'.stub') : '';
         $this->replaceFileContent($this->template, self::PLACEHOLDER_ROUTE_POST, $postRouteContent);
 
         // Method GET
@@ -266,7 +267,14 @@ class OperationGenerator
         $this->replaceFileContent($this->template, self::PLACEHOLDER_ROUTE_NAME, $this->kebabCaseName);
 
         // Method POST
-        $postMethodContent = File::get(__DIR__.self::PATH_TO_STUBS.'inc/methods/post'.$withId.'.stub');
+        $postMethodContent = $hasPostMethod ?
+                                (
+                                    $this->buttonAction === self::ACTION_MAKE_GET_REQUEST_TO_BACKPACK_FORM ?
+                                        File::get(__DIR__.self::PATH_TO_STUBS.'inc/methods/post_form'.$withId.'.stub') :
+                                        File::get(__DIR__.self::PATH_TO_STUBS.'inc/methods/post'.$withId.'.stub')
+                                ) :
+                                '';
+
         $this->replaceFileContent($this->template, self::PLACEHOLDER_METHOD_POST, $postMethodContent);
 
         // Button
@@ -450,6 +458,11 @@ class OperationGenerator
         return $this->buttonAction === self::ACTION_MAKE_GET_REQUEST_TO_BACKPACK_FORM
             || $this->buttonAction === self::ACTION_MAKE_GET_REQUEST_TO_CUSTOM_VIEW
             || $this->buttonAction === self::ACTION_OPEN_MODAL;
+    }
+
+    private function hasPostMethod(): bool
+    {
+        return ! in_array($this->buttonAction, [self::ACTION_MAKE_GET_REQUEST_TO_CUSTOM_VIEW, self::ACTION_OPEN_MODAL]);
     }
 
     private function createDirectoryIfDoesntExist(string $path)

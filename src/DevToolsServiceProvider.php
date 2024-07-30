@@ -13,21 +13,17 @@ class DevToolsServiceProvider extends ServiceProvider
     protected $packageName = 'devtools';
 
     protected $commands = [
-        \Backpack\DevTools\Console\Commands\InstallDevTools::class,
+        Console\Commands\InstallDevTools::class,
     ];
 
     protected $livewireComponents = [
-        'migration-schema' => \Backpack\DevTools\Http\Livewire\MigrationSchema::class,
-        'relationship-schema' => \Backpack\DevTools\Http\Livewire\RelationshipSchema::class,
-        'publish-modal' => \Backpack\DevTools\Http\Livewire\Modals\PublishModal::class,
-        'create-page-modal' => \Backpack\DevTools\Http\Livewire\Modals\CreatePageModal::class,
+        'migration-schema' => Http\Livewire\MigrationSchema::class,
+        'relationship-schema' => Http\Livewire\RelationshipSchema::class,
+        'publish-modal' => Http\Livewire\Modals\PublishModal::class,
+        'create-page-modal' => Http\Livewire\Modals\CreatePageModal::class,
     ];
 
     protected $binds = [
-        \Backpack\DevTools\GeneratorInterface::class => \Backpack\DevTools\Generators\BlueprintGenerator::class,
-    ];
-
-    protected $singleton = [
-        \Backpack\DevTools\SchemaManager::class,
+        GeneratorInterface::class => Generators\BlueprintGenerator::class,
     ];
 }

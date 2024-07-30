@@ -1,5 +1,39 @@
 # Changelog
 
+## [3.1.5](https://github.com/Laravel-Backpack/DevTools/tree/3.1.5) (08-May-2024)
+
+- resolve the connection before getting the name [\#367](https://github.com/Laravel-Backpack/DevTools/pull/367) (@pxpm)
+
+## [3.1.4](https://github.com/Laravel-Backpack/DevTools/tree/3.1.4) (06-May-2024)
+
+- use internal component schema cache to list tables [\#366](https://github.com/Laravel-Backpack/DevTools/pull/366) (@pxpm)
+
+## [3.1.3](https://github.com/Laravel-Backpack/DevTools/tree/3.1.3) (22-Apr-2024)
+
+- move models list creation to a separate method [\#363](https://github.com/Laravel-Backpack/DevTools/pull/363) (@pxpm)
+
+- use default connection when no related model selected, ensure array keys are set [\#365](https://github.com/Laravel-Backpack/DevTools/pull/365) (@pxpm)
+
+## [3.1.2](https://github.com/Laravel-Backpack/DevTools/tree/3.1.2) (22-Apr-2024)
+
+- remove crud trait dependency [\#364](https://github.com/Laravel-Backpack/DevTools/pull/364) (@pxpm)
+- fix typo [\#362](https://github.com/Laravel-Backpack/DevTools/pull/362) (@pxpm)
+- Remove link to 404 from Contributing.md [\#361](https://github.com/Laravel-Backpack/DevTools/pull/361) (@tabacitu)
+
+## [3.1.1](https://github.com/Laravel-Backpack/DevTools/tree/3.1.1) (27-Mar-2024)
+
+- Fix function parameters [\#360](https://github.com/Laravel-Backpack/DevTools/pull/360) (@pxpm)
+- add dev keyword to composer.json [\#359](https://github.com/Laravel-Backpack/DevTools/pull/359) (@tabacitu)
+
+## [3.1.0](https://github.com/Laravel-Backpack/DevTools/tree/3.1.0) (18-Mar-2024)
+
+- Add Laravel 11 Support [\#358](https://github.com/Laravel-Backpack/DevTools/pull/358) (@pxpm)
+- fix release action [\#357](https://github.com/Laravel-Backpack/DevTools/pull/357) (@pxpm)
+
+## [3.0.4](https://github.com/Laravel-Backpack/DevTools/tree/3.0.4) (26-Nov-2023)
+
+- support sqlsrv indexes [\#356](https://github.com/Laravel-Backpack/DevTools/pull/356) (@pxpm)
+
 ## [3.0.3](https://github.com/Laravel-Backpack/DevTools/tree/3.0.3) (26-Nov-2023)
 
 - support sqlite indexes [\#355](https://github.com/Laravel-Backpack/DevTools/pull/355) (@pxpm)
@@ -28,9 +62,9 @@
 
 ## [2.0.2](https://github.com/Laravel-Backpack/DevTools/tree/2.0.2) (01-Jul-2023)
 
-## [2.0.0](https://github.com/Laravel-Backpack/DevTools/tree/2.0.0) (01-Jul-2023)
-
 ## [2.0.1](https://github.com/Laravel-Backpack/DevTools/tree/2.0.1) (01-Jul-2023)
+
+## [2.0.0](https://github.com/Laravel-Backpack/DevTools/tree/2.0.0) (01-Jul-2023)
 
 - Require php `ext-sqlite` [\#255](https://github.com/Laravel-Backpack/DevTools/pull/255) (@promatik)
 

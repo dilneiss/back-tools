@@ -1,6 +1,6 @@
 <div class="form-group col-md-4 mb-1 px-1">
     <label class="mb-1">Relation name</label>
-    @if($relationship['created_by_column'])
+    @if(isset($relationship['created_by_column']) && $relationship['created_by_column'])
     <input
         type="text"
         name="relationships[{{ $relationship_index }}][relationship_column]"

@@ -20,15 +20,15 @@ class ModelCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\DevTools\Http\Controllers\Operations\BuildCrudOperation;
-    use \Backpack\DevTools\Http\Controllers\Operations\AddCrudTraitToModel;
-    use \Backpack\DevTools\Http\Controllers\Operations\RelatedFilesOperation;
-    use \Backpack\DevTools\Http\Controllers\Operations\StrippedShowOperation;
-    use \Backpack\DevTools\Http\Controllers\Operations\SeedModelOperation;
+    use Operations\BuildCrudOperation;
+    use Operations\AddCrudTraitToModel;
+    use Operations\RelatedFilesOperation;
+    use Operations\StrippedShowOperation;
+    use Operations\SeedModelOperation;
 
     public function setup()
     {
-        CRUD::setModel(\Backpack\DevTools\Models\Model::class);
+        CRUD::setModel(Model::class);
         CRUD::setRoute(config('backpack.base.route_prefix').'/devtools/model');
         CRUD::setEntityNameStrings('model', 'models');
 

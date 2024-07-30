@@ -4,7 +4,7 @@
     "license": "proprietary",
     "keywords": ["Laravel"],
     "require": {
-        "backpack/crud": "^6.0",
+        "backpack/crud": "^6.7.1",
         "backpack/generators": "^4.0",
         "laravel-shift/blueprint": "^2.7",
         "calebporzio/sushi": "^2.3",
@@ -16,7 +16,6 @@
         "mockery/mockery": "^1.1",
         "orchestra/testbench": "^8.0",
         "sempro/phpunit-pretty-print": "^1.0",
-        "scrutinizer/ocular": "^1.7",
         "friendsofphp/php-cs-fixer": "^3.0"
     },
     "autoload": {

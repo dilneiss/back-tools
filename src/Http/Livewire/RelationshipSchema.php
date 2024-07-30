@@ -7,8 +7,8 @@ use Str;
 
 class RelationshipSchema extends Component
 {
-    use \Backpack\DevTools\Http\Livewire\Traits\InteractsWithApplication;
-    use \Backpack\DevTools\Http\Livewire\Traits\HasRelationTypes;
+    use Traits\InteractsWithApplication;
+    use Traits\HasRelationTypes;
 
     public $relationships = [];
 

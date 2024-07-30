@@ -8,11 +8,11 @@ use Str;
 
 class MigrationSchema extends Component
 {
-    use \Backpack\DevTools\Http\Livewire\Traits\InteractsWithApplication;
-    use \Backpack\DevTools\Http\Livewire\Traits\HasRelationTypes;
-    use \Backpack\DevTools\Http\Livewire\Traits\HasDatabaseCharsetAndCollation;
-    use \Backpack\DevTools\Http\Livewire\Traits\HasDatabaseModifiers;
-    use \Backpack\DevTools\Http\Livewire\Traits\HasDatabaseColumnTypes;
+    use Traits\InteractsWithApplication;
+    use Traits\HasRelationTypes;
+    use Traits\HasDatabaseCharsetAndCollation;
+    use Traits\HasDatabaseModifiers;
+    use Traits\HasDatabaseColumnTypes;
 
     public $field;
 

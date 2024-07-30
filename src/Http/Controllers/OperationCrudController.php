@@ -24,8 +24,8 @@ class OperationCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\DevTools\Http\Controllers\Operations\AddCrudTraitToModel;
-    use \Backpack\DevTools\Http\Controllers\Operations\StrippedShowOperation;
+    use Operations\AddCrudTraitToModel;
+    use Operations\StrippedShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation {
         store as traitStore;
     }
